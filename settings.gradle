@@ -1,0 +1,2 @@
+rootProject.name='Enparadigm Weather App'
+include ':app'
