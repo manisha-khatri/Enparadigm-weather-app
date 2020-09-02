@@ -19,7 +19,7 @@ public class WeatherRepositoryImpl {
 
     public void fetchWeatherData(APIResponseCallBack apiResponseCallBack, String city){
         call = apiService.customSearch(
-                "dehradun",
+                city,
                 "41392994adfbc49bb44dddf2c2589383"
         );
         fetchNewsFromServer(call, apiResponseCallBack);

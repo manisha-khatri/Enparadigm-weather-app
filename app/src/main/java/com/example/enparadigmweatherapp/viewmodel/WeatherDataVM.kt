@@ -22,9 +22,8 @@ class WeatherDataVM() : ViewModel() {
         return viewState
     }
 
-    fun loadWeatherData(){
+    fun loadWeatherData(cityName:String ?= null){
         weatherRepository = WeatherRepositoryImpl()
-        var city : String = "dehradun"
 
         viewState.setValue(ProgressState())
         weatherRepository!!.fetchWeatherData(object : APIResponseCallBack {
@@ -41,7 +40,7 @@ class WeatherDataVM() : ViewModel() {
             ) {
                 viewState.setValue(ErrorState("Cannot fetch response from server"))
             }
-        }, city)
+        }, cityName)
     }
 
     private fun handleSuccessfulResponse(
