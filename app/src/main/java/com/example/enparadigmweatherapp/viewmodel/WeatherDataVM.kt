@@ -14,7 +14,6 @@ import retrofit2.Response
 
 class WeatherDataVM() : ViewModel() {
 
-    //http://openweathermap.org/img/wn/03d@2x.png
     private val viewState: MutableLiveData<ViewState> = MutableLiveData<ViewState>()
     private var weatherRepository : WeatherRepositoryImpl ?= null
 

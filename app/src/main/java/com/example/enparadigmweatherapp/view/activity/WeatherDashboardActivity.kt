@@ -1,65 +1,44 @@
 package com.example.enparadigmweatherapp.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.enparadigmweatherapp.R
-import com.example.enparadigmweatherapp.model.WeatherData
 import com.example.enparadigmweatherapp.util.Constants
-import com.example.enparadigmweatherapp.view.state.ErrorState
-import com.example.enparadigmweatherapp.view.state.ProgressState
-import com.example.enparadigmweatherapp.view.state.SuccessState
-import com.example.enparadigmweatherapp.viewmodel.WeatherDataVM
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_weather_dashboard.*
 
-class WeatherDashboardActivity : AppCompatActivity() {
-    var weatherDataVM: WeatherDataVM ?= null
-    var cityName: String?= null
+class WeatherDashboardActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initViews()
-        initObserver()
-        initData()
+        setContentView(R.layout.activity_weather_dashboard)
+        onSerachBtnClickListener()
     }
 
-    fun initViews(){
-        if (intent.hasExtra(Constants.CITY_NAME)) {
-            cityName = intent.getStringExtra(Constants.CITY_NAME)
-            cityName = cityName!!.toLowerCase()
-        }
-    }
-
-    private fun initObserver() {
-        weatherDataVM = ViewModelProviders.of(this).get(WeatherDataVM::class.java)
-        weatherDataVM!!.getViewState().observe(this, Observer { viewState ->
-            when (viewState) {
-                is ErrorState -> {
-                    setViewVisibility(true,false,false)
+    private fun onSerachBtnClickListener() {
+        searchBtn.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                var userInput: String?= cityName.text.toString()
+                if(userInput != null && userInput!="" && isLetters(userInput)){
+                    val intent = Intent(this@WeatherDashboardActivity, WeatherDetailsActivity::class.java)
+                    intent.putExtra(Constants.CITY_NAME,userInput)
+                    startActivity(intent)
                 }
-                is ProgressState -> {
-                    setViewVisibility(false,true,false)
-                }
-                is SuccessState -> {
-                    setViewVisibility(false,false,true)
-                    val weatherData: WeatherData = viewState.weatherData
-                    weatherDataTV.setText(weatherData.toString())
-                }
+                else
+                    Toast.makeText(this@WeatherDashboardActivity, "Invalid input!", Toast.LENGTH_SHORT)
+                        .show()
             }
         })
     }
 
-    fun setViewVisibility(ErrorState:Boolean, ProgressState:Boolean, SuccessState:Boolean){
-        errorTV.visibility = if(ErrorState == true) View.VISIBLE else View.GONE
-        progressBar.visibility = if(ProgressState == true) View.VISIBLE else View.GONE
-        weatherDataTV.visibility = if(SuccessState == true) View.VISIBLE else View.GONE
+    fun isLetters(string: String): Boolean {
+        for (c in string) {
+            if (c !in 'A'..'Z' && c !in 'a'..'z') {
+                return false
+            }
+        }
+        return true
     }
-
-    private fun initData() {
-        weatherDataVM!!.loadWeatherData(cityName)
-    }
-
 }

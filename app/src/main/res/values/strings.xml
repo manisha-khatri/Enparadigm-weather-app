@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Enparadigm Weather App</string>
+    <string name="invalid_input">Invalid input!</string>
+    <string name="delhi">Delhi</string>
+    <string name="_18_000">18.000</string>
+    <string name="_1024">1024</string>
+    <string name="pressure">Pressure</string>
+    <string name="_11_16">11.16</string>
+    <string name="wind">Wind</string>
+    <string name="_10_0">10.0</string>
+    <string name="visibility">Visibility</string>
+    <string name="percentage">%</string>
+    <string name="_92">92</string>
+    <string name="clouds">Clouds</string>
+    <string name="_72">72</string>
+    <string name="humidity">Humidity</string>
+    <string name="welcome">Welcome!</string>
+    <string name="enter_your_city_to_get_the_weather">Enter your city to get the weather</string>
+    <string name="search">Search</string>
 </resources>
